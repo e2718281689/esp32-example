@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "freertos.h": "c"
+        "gpio.h": "c",
+        "epd.h": "c",
+        "sdkconfig.h": "c"
     },
-    "idf.adapterTargetName": "esp32"
+    "C_Cpp.errorSquiggles": "Disabled"
 }
