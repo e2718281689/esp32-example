@@ -220,28 +220,35 @@ void EPD_init(void)//初始化
     EPD_W21_WriteDATA(VRES_byte2);
 
     EPD_W21_WriteCMD(0X50);  // VCOM AND DATA INTERVAL SETTING
-    EPD_W21_WriteDATA(0x77); // WBmode:VBDF 17|D7 VBDW 97 VBDB 57		WBRmode:VBDF F7 VBDW 77 VBDB 37  VBDR B7
+    EPD_W21_WriteDATA(0x77); // WBmode:VBDF 17|D7 VBDW 97 VBDB 57		WBRmode:VBDF F7 VBDW 77 VBDB 37  VBDR B7  外边框颜色
 }
-void EPD_Write(uint8_t *picData, uint8_t x, uint8_t y, uint8_t *zi)
+void EPD_Printf(uint8_t *picData, uint8_t x, uint8_t y,char* mumber)
 {
 
-    for (uint8_t a = 0; a < 6; a++)
+    for (uint8_t i = 0;  mumber[i]!='\r'; i++)
     {
-        for (uint8_t b = 0; b < 8; b++)
-        {
-            // uint8_t i=chF6x8[5];
-            // Wirte_EPD(picData, a + x, b + y,);
-            // picData
-            // printf("%d %d  %d \n",a,b,(i<<b)&0x80);
-        }
+        EPD_Write(picData,x+i*6,y,mumber[i]);
     }
 }
-void EPD_printf(uint8_t *picData, uint8_t x, uint8_t y, char zi)
+void EPD_Write(uint8_t *picData, uint8_t x, uint8_t y, char zi)
 {
     // uint8_t* pp=chF6x8[(int)zi-32];
     // EPD_Write(picData,x,y,pp);
     for (uint8_t i = 0; i < 6; i++)
     {
-        Wirte_EPD_pieco(picData, x + i, y, ~chF6x8[10][i]);
+    uint8_t ss= ~chF6x8[zi-32][i];
+     ss = ((ss * 0x80200802ULL) & 0x0884422110ULL) * 0x0101010101ULL >> 32;
+        Wirte_EPD_pieco(picData, x + i, y,ss);
     }
+}
+void EPD_main(void)
+{
+
+    // EPD_init();
+    // PIC_display_Clean_White(gImage);
+    // PIC_display_White(gImage);
+    // EPD_Printf(gImage,50,50,"12345678\r");
+    // PIC_display_White(gImage);
+    // EPD_refresh();
+    // EPD_sleep();
 }

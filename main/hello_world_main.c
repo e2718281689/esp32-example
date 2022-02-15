@@ -100,8 +100,8 @@ void app_main(void)
     EPD_init();
     PIC_display_Clean_White(gImage);
     PIC_display_White(gImage);
-
-    
+    EPD_Printf(gImage,50,50,"12345678\r");
+    PIC_display_White(gImage);
     EPD_refresh();
     EPD_sleep();
 }
